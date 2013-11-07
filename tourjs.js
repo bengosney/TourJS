@@ -77,10 +77,20 @@
 
     function setText(text) {
 	if($('#tour-text').length == 0) {
-	    $('#tour-block').append('<div id="tour-text"></div>');
+	    $(document.body).append('<div id="tour-text"></div>');
+
+	    var styles = {
+		'padding':'1rem',
+		'font-size':'2rem',
+		'opacity':'1',
+		'z-index':'1001',
+		'background': '#000',
+		'color':'#fff'
+	    }
+	    $('#tour-text').css(styles);
 	}
 
-	if(text.length == 0) {
+	if(typeof text == 'undefined' || text.length == 0) {
 	    $('#tour-text').css('display','none');
 	    return;
 	}
@@ -97,6 +107,7 @@
 	if(typeof item.text != 'undefined') {
 	    setText(item.text);
 	}
+	$('#tour-text').tourCenter();
     }
 
     $.startTour = function( data ) {
@@ -111,9 +122,19 @@
 		    $('#tour-block').data('tourNum', $('#tour-block').data('tourNum') + 1);
 		}else{
 		    removeHeighlight();
+		    setText();
 		}
 	});
 
+	return this;
+    }
+
+    $.fn.tourCenter = function () {
+	this.css("position","absolute");
+	this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
+				 $(window).scrollTop()) + "px");
+	this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
+				  $(window).scrollLeft()) + "px");
 	return this;
     }
 }( jQuery ));
