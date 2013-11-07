@@ -75,15 +75,39 @@
 	$item.css('z-index',$item.data('zindex'));
     }
 
+    function setText(text) {
+	if($('#tour-text').length == 0) {
+	    $('#tour-block').append('<div id="tour-text"></div>');
+	}
+
+	if(text.length == 0) {
+	    $('#tour-text').css('display','none');
+	    return;
+	}
+
+
+	$('#tour-text').css('display','block').html(text);
+    }
+
+    function setItem(item) {
+	console.log(item);
+	if(typeof item.selector != 'undefined') {
+	    highlightItem(item.selector);
+	}
+	if(typeof item.text != 'undefined') {
+	    setText(item.text);
+	}
+    }
+
     $.startTour = function( data ) {
 	
-	highlightItem(data[0].selector);
+	setItem(data[0]);
 
 	$('#tour-block').data('tourNum', 1);
 
 	$('#tour-block').click(function () {
 		if(typeof data[$('#tour-block').data('tourNum')] != 'undefined') {
-		    highlightItem(data[$('#tour-block').data('tourNum')].selector);
+		    setItem(data[$('#tour-block').data('tourNum')]);
 		    $('#tour-block').data('tourNum', $('#tour-block').data('tourNum') + 1);
 		}else{
 		    removeHeighlight();
