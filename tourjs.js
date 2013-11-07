@@ -79,8 +79,15 @@
 	
 	highlightItem(data[0].selector);
 
+	$('#tour-block').data('tourNum', 1);
+
 	$('#tour-block').click(function () {
-	    highlightItem(data[1].selector);
+		if(typeof data[$('#tour-block').data('tourNum')] != 'undefined') {
+		    highlightItem(data[$('#tour-block').data('tourNum')].selector);
+		    $('#tour-block').data('tourNum', $('#tour-block').data('tourNum') + 1);
+		}else{
+		    removeHeighlight();
+		}
 	});
 
 	return this;
